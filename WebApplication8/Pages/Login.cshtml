@@ -1,0 +1,94 @@
+﻿@page
+@model LoginModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<style>
+    body {
+        background-color: #1a1a2e;
+        color: #e0e0e0;
+    }
+
+    .card {
+        background-color: #2a2a40;
+        border: 1px solid #5d3fd3;
+    }
+
+    .card-header {
+        background-color: #5d3fd3;
+        color: white;
+        font-weight: bold;
+    }
+
+    .form-control, .btn {
+        background-color: #2a2a40;
+        color: #e0e0e0;
+        border: 1px solid #5d3fd3;
+    }
+
+    .form-control:focus {
+        background-color: #2a2a40;
+        color: #fff;
+        border-color: #8a2be2;
+        box-shadow: 0 0 0 0.2rem rgba(138, 43, 226, 0.25);
+    }
+
+    .btn-primary {
+        background-color: #6f42c1;
+        border-color: #6f42c1;
+    }
+
+    .btn-primary:hover {
+        background-color: #5a32a3;
+        border-color: #5a32a3;
+    }
+
+    .card-footer a {
+        color: #8a2be2;
+    }
+
+    .card-footer a:hover {
+        text-decoration: underline;
+        color: #a362ea;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card shadow-lg">
+            <div class="card-header text-center">
+                <h3 class="mb-0">Вход</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Имя пользователя</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label">Пароль</label>
+                        <input asp-for="Password" class="form-control" type="password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        <div class="alert alert-danger mt-2">@Model.ErrorMessage</div>
+                    }
+
+                    <button type="submit" class="btn btn-primary w-100">Войти</button>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                Нет аккаунта? <a asp-page="/Register">Зарегистрироваться</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

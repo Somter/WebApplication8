@@ -1,0 +1,101 @@
+﻿@page
+@model IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Гостевая книга";
+}
+
+<style>
+    body {
+        background-color: #1a1a2e;
+        color: #e0e0e0;
+    }
+
+    .card {
+        background-color: #2a2a40;
+        border: 1px solid #5d3fd3;
+    }
+
+    .card-header {
+        background-color: #5d3fd3;
+        color: white;
+        font-weight: bold;
+    }
+
+    .form-control, .btn {
+        background-color: #2a2a40;
+        color: #e0e0e0;
+        border: 1px solid #5d3fd3;
+    }
+
+        .form-control:focus {
+            background-color: #2a2a40;
+            color: #fff;
+            border-color: #8a2be2;
+            box-shadow: 0 0 0 0.2rem rgba(138, 43, 226, 0.25);
+        }
+
+    .btn-success {
+        background-color: #6f42c1;
+        border-color: #6f42c1;
+    }
+
+        .btn-success:hover {
+            background-color: #5a32a3;
+            border-color: #5a32a3;
+        }
+
+    .list-group-item {
+        background-color: #2a2a40;
+        border: 1px solid #5d3fd3;
+        color: #e0e0e0;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1 class="mb-4 text-center text-white">Гостевая книга</h1>
+
+        <div class="card mb-4 shadow-lg">
+            <div class="card-header">Ваше сообщение:</div>
+            <div class="card-body">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="mb-3">
+                        <label asp-for="MessageText" class="form-label"></label>
+                        <textarea asp-for="MessageText" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="MessageText" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Отправить</button>
+                </form>
+            </div>
+        </div>
+        @if (Model.Messages.Any())
+        {
+            <div class="list-group">
+                @foreach (var msg in Model.Messages)
+                {
+                    var name = Model.UserNamesById.ContainsKey(msg.Id_User) ? Model.UserNamesById[msg.Id_User] : "Неизвестный";
+
+                    <div class="list-group-item list-group-item-action mb-2 shadow-sm">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">
+                                <i class="bi bi-person-circle"></i> Пользователь: <strong>@name</strong>
+                            </h6>
+                            <small class="text-muted">@msg.MessageDate.ToString("g")</small>
+                        </div>
+                        <p class="mb-1">@msg.MessageText</p>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">Пока нет сообщений.</p>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
